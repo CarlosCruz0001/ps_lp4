@@ -1,0 +1,58 @@
+.kanban-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .kanban-title {
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .kanban-input-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .kanban-grid {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .kanban-column {
+    padding: 15px;
+    border-radius: 8px;
+    min-height: 400px;
+  }
+  
+  .a-fazer {
+    background-color: #bbdefb;
+  }
+  
+  .em-progresso {
+    background-color: #fff59d;
+  }
+  
+  .concluído {
+    background-color: #c8e6c9;
+  }
+  
+  .kanban-card {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .kanban-add-button {
+    background-color: #1976d2;
+    color: white;
+  }
+  
+  .kanban-edit-button,
+  .kanban-delete-button,
+  .kanban-move-button {
+    margin-top: 5px;
+  }
+  

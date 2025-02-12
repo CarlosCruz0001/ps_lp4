@@ -24,15 +24,30 @@ let tarefas = [
 io.on("connection", (socket) => {
   console.log("Novo usuário conectado:", socket.id);
   
+  // Enviar tarefas ao novo cliente conectado
   socket.emit("tarefas", tarefas);
 
+  // Adicionar nova tarefa
   socket.on("novaTarefa", (tarefa) => {
     tarefas.push(tarefa);
     io.emit("tarefas", tarefas);
   });
 
+  // Mover tarefa entre colunas
   socket.on("moverTarefa", ({ id, status }) => {
     tarefas = tarefas.map((t) => (t.id === id ? { ...t, status } : t));
+    io.emit("tarefas", tarefas);
+  });
+
+  // Editar tarefa existente
+  socket.on("editarTarefa", ({ id, titulo }) => {
+    tarefas = tarefas.map((t) => (t.id === id ? { ...t, titulo } : t));
+    io.emit("tarefas", tarefas);
+  });
+
+  // Remover tarefa da lista
+  socket.on("removerTarefa", ({ id }) => {
+    tarefas = tarefas.filter((t) => t.id !== id);
     io.emit("tarefas", tarefas);
   });
 

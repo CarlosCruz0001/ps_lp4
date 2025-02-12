@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { socket } from "../main";
-import { Container, Grid, Card, CardContent, Button, TextField } from "@mui/material";
+import { Container, Grid, Card, CardContent, Button, TextField, Typography } from "@mui/material";
+import "./styles.css";
 
 interface Tarefa {
   id: number;
@@ -11,6 +12,8 @@ interface Tarefa {
 const KanbanBoard = () => {
   const [tarefas, setTarefas] = useState<Tarefa[]>([]);
   const [novaTarefa, setNovaTarefa] = useState("");
+  const [editando, setEditando] = useState<number | null>(null);
+  const [tituloEditado, setTituloEditado] = useState("");
 
   useEffect(() => {
     socket.on("tarefas", (tarefasRecebidas: Tarefa[]) => {
@@ -23,6 +26,7 @@ const KanbanBoard = () => {
   }, []);
 
   const adicionarTarefa = () => {
+    if (!novaTarefa.trim()) return;
     const tarefa = { id: Date.now(), titulo: novaTarefa, status: "A Fazer" };
     socket.emit("novaTarefa", tarefa);
     setNovaTarefa("");
@@ -32,28 +36,62 @@ const KanbanBoard = () => {
     socket.emit("moverTarefa", { id, status: novoStatus });
   };
 
+  const iniciarEdicao = (tarefa: Tarefa) => {
+    setEditando(tarefa.id);
+    setTituloEditado(tarefa.titulo);
+  };
+
+  const salvarEdicao = (id: number) => {
+    socket.emit("editarTarefa", { id, titulo: tituloEditado });
+    setEditando(null);
+  };
+
+  const removerTarefa = (id: number) => {
+    socket.emit("removerTarefa", { id });
+  };
+
   return (
-    <Container>
-      <h1>Kanban Colaborativo</h1>
-      <TextField
-        label="Nova Tarefa"
-        value={novaTarefa}
-        onChange={(e) => setNovaTarefa(e.target.value)}
-      />
-      <Button onClick={adicionarTarefa}>Adicionar</Button>
-      
-      <Grid container spacing={2}>
+    <Container className="kanban-container">
+      <Typography variant="h4" className="kanban-title">Kanban Colaborativo</Typography>
+      <div className="kanban-input-container">
+        <TextField
+          label="Nova Tarefa"
+          value={novaTarefa}
+          onChange={(e) => setNovaTarefa(e.target.value)}
+          className="kanban-input"
+        />
+        <Button onClick={adicionarTarefa} variant="contained" className="kanban-add-button">Adicionar</Button>
+      </div>
+
+      <Grid container spacing={3} className="kanban-grid">
         {["A Fazer", "Em Progresso", "Concluído"].map((status) => (
-          <Grid item xs={4} key={status}>
-            <h2>{status}</h2>
+          <Grid item xs={4} key={status} className={`kanban-column ${status.toLowerCase().replace(' ', '-')}`}>
+            <Typography variant="h6" className="kanban-column-title">{status}</Typography>
             {tarefas.filter((t) => t.status === status).map((tarefa) => (
-              <Card key={tarefa.id} sx={{ marginBottom: 2 }}>
+              <Card key={tarefa.id} className="kanban-card">
                 <CardContent>
-                  <p>{tarefa.titulo}</p>
-                  {status !== "Concluído" && (
-                    <Button onClick={() => moverTarefa(tarefa.id, status === "A Fazer" ? "Em Progresso" : "Concluído")}>
-                      Mover
-                    </Button>
+                  {editando === tarefa.id ? (
+                    <>
+                      <TextField
+                        value={tituloEditado}
+                        onChange={(e) => setTituloEditado(e.target.value)}
+                        className="kanban-edit-input"
+                      />
+                      <Button onClick={() => salvarEdicao(tarefa.id)} variant="contained" className="kanban-save-button">Salvar</Button>
+                    </>
+                  ) : (
+                    <>
+                      <Typography>{tarefa.titulo}</Typography>
+                      <Button onClick={() => iniciarEdicao(tarefa)} variant="text" className="kanban-edit-button">Editar</Button>
+                      <Button onClick={() => removerTarefa(tarefa.id)} variant="text" className="kanban-delete-button">Remover</Button>
+                      {status !== "Concluído" && (
+                        <Button onClick={() => moverTarefa(tarefa.id, status === "A Fazer" ? "Em Progresso" : "Concluído")}
+                                variant="outlined"
+                                className="kanban-move-button">
+                          Mover
+                        </Button>
+                      )}
+                    </>
                   )}
                 </CardContent>
               </Card>
