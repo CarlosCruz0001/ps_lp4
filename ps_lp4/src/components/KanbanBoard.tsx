@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { socket } from "../main";
-import { Container, Grid, Card, CardContent, Button, TextField, Typography } from "@mui/material";
+import { Card, CardContent, Button, TextField, Typography } from "@mui/material";
 import "./styles.css";
 
 interface Tarefa {
@@ -14,6 +14,7 @@ const KanbanBoard = () => {
   const [novaTarefa, setNovaTarefa] = useState("");
   const [editando, setEditando] = useState<number | null>(null);
   const [tituloEditado, setTituloEditado] = useState("");
+  const [modoNoturno, setModoNoturno] = useState(false);
 
   useEffect(() => {
     socket.on("tarefas", (tarefasRecebidas: Tarefa[]) => {
@@ -51,8 +52,11 @@ const KanbanBoard = () => {
   };
 
   return (
-    <Container className="kanban-container">
+    <div className={`kanban-container ${modoNoturno ? "modo-noturno" : ""}`}>
       <Typography variant="h4" className="kanban-title">Kanban Colaborativo</Typography>
+      <Button onClick={() => setModoNoturno(!modoNoturno)} variant="contained" className="modo-noturno-botao">
+        {modoNoturno ? "Modo Claro" : "Modo Noturno"}
+      </Button>
       <div className="kanban-input-container">
         <TextField
           label="Nova Tarefa"
@@ -63,9 +67,9 @@ const KanbanBoard = () => {
         <Button onClick={adicionarTarefa} variant="contained" className="kanban-add-button">Adicionar</Button>
       </div>
 
-      <Grid container spacing={3} className="kanban-grid">
+      <div className="kanban-grid">
         {["A Fazer", "Em Progresso", "Concluído"].map((status) => (
-          <Grid item xs={4} key={status} className={`kanban-column ${status.toLowerCase().replace(' ', '-')}`}>
+          <div key={status} className={`kanban-column ${status.toLowerCase().replace(' ', '-')}`}>
             <Typography variant="h6" className="kanban-column-title">{status}</Typography>
             {tarefas.filter((t) => t.status === status).map((tarefa) => (
               <Card key={tarefa.id} className="kanban-card">
@@ -96,10 +100,10 @@ const KanbanBoard = () => {
                 </CardContent>
               </Card>
             ))}
-          </Grid>
+          </div>
         ))}
-      </Grid>
-    </Container>
+      </div>
+    </div>
   );
 };
 

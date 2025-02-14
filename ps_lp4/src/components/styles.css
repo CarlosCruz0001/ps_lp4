@@ -1,58 +1,128 @@
 .kanban-container {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .kanban-title {
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .kanban-input-container {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .kanban-grid {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .kanban-column {
-    padding: 15px;
-    border-radius: 8px;
-    min-height: 400px;
-  }
-  
-  .a-fazer {
-    background-color: #bbdefb;
-  }
-  
-  .em-progresso {
-    background-color: #fff59d;
-  }
-  
-  .concluído {
-    background-color: #c8e6c9;
-  }
-  
-  .kanban-card {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .kanban-add-button {
-    background-color: #1976d2;
-    color: white;
-  }
-  
-  .kanban-edit-button,
-  .kanban-delete-button,
-  .kanban-move-button {
-    margin-top: 5px;
-  }
-  
+  padding: 20px;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.kanban-title {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.modo-noturno-botao {
+  margin-bottom: 10px;
+}
+
+.kanban-input-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.kanban-grid {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.kanban-column {
+  flex: 1;
+  max-width: 300px;
+  min-width: 250px;
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 400px;
+}
+
+/* Cores das colunas no modo não noturno */
+.a-fazer {
+  background-color: #bbdefb;
+}
+
+.em-progresso {
+  background-color: #fff59d;
+}
+
+.concluído {
+  background-color: #c8e6c9;
+}
+
+/* Cores das colunas no modo noturno */
+.modo-noturno .kanban-column.a-fazer {
+  background-color: #263238; /* Cor escura para 'A Fazer' */
+}
+
+.modo-noturno .kanban-column.em-progresso {
+  background-color: #3e2723; /* Cor escura para 'Em Progresso' */
+}
+
+.modo-noturno .kanban-column.concluído {
+  background-color: #1b5e20; /* Cor escura para 'Concluído' */
+}
+
+/* Efeito Neon no modo noturno */
+.modo-noturno .kanban-column {
+  color: #ffffff;
+  box-shadow: 
+    0 0 10px rgba(173, 216, 230, 0.8), /* Neon azul bebê */
+    0 0 20px rgba(255, 255, 159, 0.8), /* Neon amarelo claro */
+    0 0 30px rgba(144, 238, 144, 0.8); /* Neon verde claro */
+}
+
+.kanban-card {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra no modo claro */
+}
+
+/* Estilos adicionais */
+.kanban-add-button {
+  background-color: #1976d2;
+  color: white;
+}
+
+.kanban-edit-button,
+.kanban-delete-button,
+.kanban-move-button {
+  margin-top: 5px;
+}
+
+.modo-noturno {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.modo-noturno .kanban-column {
+  background-color: #222;
+}
+
+.modo-noturno .kanban-title {
+  color: #f5f5f5;
+}
+
+.modo-noturno .kanban-input-container input {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.modo-noturno .kanban-add-button {
+  background-color: #2196f3;
+}
+
+.modo-noturno .kanban-card {
+  background-color: #7f8183;
+}
+
+.modo-noturno .kanban-edit-button,
+.modo-noturno .kanban-delete-button,
+.modo-noturno .kanban-move-button {
+  color: #ddd;
+}
