@@ -23,7 +23,7 @@ Antes de executar o projeto, certifique-se de ter instalado:
 
 ### Clonar o repositório
 ```sh
-    git clone https://github.com/seu-usuario/seu-repositorio.git
+    git clone https://github.com/CarlosCruz0001/ps_lp4.git
     cd seu-repositorio
 ```
 
