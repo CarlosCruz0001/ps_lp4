@@ -10,8 +10,8 @@ Este projeto consiste em um Kanban colaborativo utilizando **Node.js**, **Expres
 ## 📂 Estrutura do Projeto
 
 O projeto é dividido em duas pastas:
-- **backend/**: Contém a API e o servidor WebSocket
-- **frontend/**: Contém a interface do usuário construída em React
+- **ps_lp4_backend/**: Contém a API e o servidor WebSocket
+- **ps_lp4/**: Contém a interface do usuário construída em React
 
 ## 🔧 Pré-requisitos
 
